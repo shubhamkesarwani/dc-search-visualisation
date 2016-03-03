@@ -14,14 +14,13 @@ class search_client():
 		self._config["hubcount"] = "0/1/0"
 
 		# debug files
-		self._debug_fh = open("debug-log.txt","w")
+		self._debug_fh = open("debug-log.txt","w+")
 
-		# Data storage in csv
-		self._output_csvfile = open('search.csv', 'w')
-		fieldnames = ['ip', 'search_query']
-		self._writer = csv.DictWriter(self._output_csvfile, fieldnames=fieldnames, delimiter=',')
-		self._writer.writeheader()
-
+		with open('search.csv', 'a+') as output_csvfile:
+			fieldnames = ['date', 'ip', 'search_query']
+			csv_writer = csv.DictWriter(output_csvfile, fieldnames=fieldnames, delimiter=',')
+			csv_writer.writeheader()
+		
 		# User Details
 		self._config["nick"] = "Anonymous" # User Nickname
 		self._config["pass"] = "" # User Password
@@ -250,8 +249,15 @@ class search_client():
 			info[6] = self.unescape(info[6].replace("$"," ")) # Convert $ back to spaces
 			ip_addr = info[0]
 			search_query = info[6]
+			date_str = time.strftime("%d-%b-%Y %H:%M:%S",time.localtime())
 			print "\nIP:"+ip_addr+" QUERY: "+search_query
-			self._writer.writerow({'ip': ip_addr, 'search_query': search_query})
+
+			# Data storage in csv
+			with open('search.csv', 'a+') as output_csvfile:
+				fieldnames = ['date', 'ip', 'search_query']
+				csv_writer = csv.DictWriter(output_csvfile, fieldnames=fieldnames, delimiter=',')
+				# csv_writer.writeheader()
+				csv_writer.writerow({'date': date_str,'ip': ip_addr, 'search_query': search_query})
 
 
 	def configure(self,data): # Allows the users to configure the client according to his wishes.
@@ -304,8 +310,7 @@ class search_client():
 		if self._socket is not None:
 			self._socket.close() # Terminate connection to server
 		self.debug("Disconnected from Hub.")
-		self._debug_fh.close()
-		self._output_csvfile.close()
+		
 		return self
 
 	def cli(self): # Provide a Command Line Interface for testing purposes before the GUI can be built
@@ -327,6 +332,7 @@ class search_client():
 					for nick in self._config["nicklist"]: print nick, self._config["nicklist"][nick]
 				if x=="!exit":
 					self.disconnect()
+					self._debug_fh.close()
 					break
 				# if len(x)>0 and x[0]=="?": self.search(x[1:],{"display":sys.stdout})
 				# if len(x)>0 and x[0]==":": self.mc_send(x[1:])
