@@ -349,6 +349,6 @@ class search_client():
 		
 if __name__=="__main__":
 	temp_nick = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(10))
-	data = { "mode":True, "name":"pyDC", "host":"10.109.49.49","nick":temp_nick,"pass":"password","desc":"","email":"","sharesize":1073741824,"localhost":"127.0.0.1","overwrite":True}
+	data = { "mode":True, "name":"pyDC", "host":"10.109.61.61","nick":temp_nick,"pass":"password","desc":"","email":"","sharesize":1073741824,"localhost":"127.0.0.1","overwrite":True}
 	x = search_client().configure(data).connect();
 	x.cli();
