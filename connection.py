@@ -11,7 +11,6 @@ class ConnectionError(Exception):
 		
 class Connection:
 	"""
-	Written by Kaustubh Karkare.
 	The connection class aims to provide an extremely simple way to set up TCP/UDP Servers/Clients.
 	Connections are creating using the statement similar to:
 		link = connection({ "name":"TCP-Client", "host":"192.168.0.1", "port":12345, "type":"tcp", "role":"client", "handler":somefunction })
@@ -284,7 +283,11 @@ if __name__=="__main__":
 				c.send(raw_input()+"\n")
 		elif x==3:
 			c = Connection({"name":"UDPS","host":"localhost","port":port,"role":"server","handler":udps,"type":"udp"}).wait()
+
 		elif x==4:
 			c = Connection({"name":"UDPC","host":"localhost","port":port,"role":"client","type":"udp"})
 			while c.active(): c.send(raw_input())
+		# Extra configuration if connection through udp is buggy
+		elif x==5:
+			c = Connection({"name":"UDPE","host":"localhost","port":port,"role":"server","handler":udps,"type":"udp"}).wait()
 	except KeyboardInterrupt: c.close()
