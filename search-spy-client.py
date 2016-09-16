@@ -325,6 +325,7 @@ class search_client():
 					print "Enter the Nickname you wish to use : ",; nick = raw_input()
 					print "Enter the Password you wish to use : ",; _pass = raw_input()
 					self.configure({"name":name, "host":host, "nick":nick, "pass":_pass});
+					# This module allows you to configure the dc search program.
 				if x=="!connect": self.connect()
 				if x=="!disconnect": self.disconnect()
 				if x=="!status": print "Connection Status : "+("mode" if self._socket.active() else "Inactive")
@@ -334,15 +335,16 @@ class search_client():
 					self.disconnect()
 					self._debug_fh.close()
 					break
-				# if len(x)>0 and x[0]=="?": self.search(x[1:],{"display":sys.stdout})
-				# if len(x)>0 and x[0]==":": self.mc_send(x[1:])
-				# if len(x)>0 and x[0]=="@": self.pm_send(x[1:].split()[0]," ".join(x.split()[1:]) )
-				# if len(x)>0 and x[0]=="~": exec (x[1:])
-				# if len(x)>0 and x[0]=="$": self._socket.send(x[1:])
-				# if len(x)>0 and x[0]=="^": self.download_tth("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-				# if len(x)>0 and x[0]=="&": print [item["part"] for item in self._queue]
-				# if len(x)>0 and x[0]=="*":
-					# for t in sorted([t.name for t in threading.enumerate()]): print "THREAD :: "+t
+				#  Delete all invalid searches
+				if len(x)>0 and x[0]=="?": self.search(x[1:],{"display":sys.stdout})
+				if len(x)>0 and x[0]==":": self.mc_send(x[1:])
+				if len(x)>0 and x[0]=="@": self.pm_send(x[1:].split()[0]," ".join(x.split()[1:]) )
+				if len(x)>0 and x[0]=="~": exec (x[1:])
+				if len(x)>0 and x[0]=="$": self._socket.send(x[1:])
+				if len(x)>0 and x[0]=="^": self.download_tth("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+				if len(x)>0 and x[0]=="&": print [item["part"] for item in self._queue]
+				if len(x)>0 and x[0]=="*":
+					for t in sorted([t.name for t in threading.enumerate()]): print "THREAD :: "+t
 			except KeyboardInterrupt: exit()
 			except Exception as e: print e
 		return self
