@@ -290,9 +290,9 @@ class search_client():
 	def disconnect(self): # Terminate all child threads of this object before disconnecting from the hub.
 		# self._debug = lambda s: sys.stdout.write(s+"\n") # NOTICE : Debugging purposes
 		self.debug("Terminating all searches ...")
-		# for item in self._search: # Terminate all searches
-		# 	if self._search[item]["socket"] is not None and self._search[item]["socket"].active():
-		# 		self._search[item]["socket"].close()
+		for item in self._search: # Terminate all searches
+			if self._search[item]["socket"] is not None and self._search[item]["socket"].active():
+				self._search[item]["socket"].close()
 		self.debug("Terminating all transfers ...")
 		# for transfer in self._transfer: # Terminate all transfers spawned
 		# 	if transfer["socket"].active():
