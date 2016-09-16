@@ -319,12 +319,12 @@ class search_client():
 		while True:
 			try:
 				x = raw_input()
-				# if x=="!configure":
-				# 	print "Enter the Client Name              : ",; name = raw_input()
-				# 	print "Enter the Hub Address              : ",; host = raw_input()
-				# 	print "Enter the Nickname you wish to use : ",; nick = raw_input()
-				# 	print "Enter the Password you wish to use : ",; _pass = raw_input()
-				# 	self.configure({"name":name, "host":host, "nick":nick, "pass":_pass});
+				if x=="!configure":
+					print "Enter the Client Name              : ",; name = raw_input()
+					print "Enter the Hub Address              : ",; host = raw_input()
+					print "Enter the Nickname you wish to use : ",; nick = raw_input()
+					print "Enter the Password you wish to use : ",; _pass = raw_input()
+					self.configure({"name":name, "host":host, "nick":nick, "pass":_pass});
 				if x=="!connect": self.connect()
 				if x=="!disconnect": self.disconnect()
 				if x=="!status": print "Connection Status : "+("mode" if self._socket.active() else "Inactive")
